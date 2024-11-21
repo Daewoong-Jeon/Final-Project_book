@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         app: book
+        sidecar.istio.io/inject: "true" # Pod 레이블 추가
     spec:
       containers:
         - name: book
