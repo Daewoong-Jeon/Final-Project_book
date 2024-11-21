@@ -114,12 +114,11 @@ public class Book {
             book.setMemberId(null);
             repository().save(book);
 
-
-
             Book bookParam = new Book();
+            bookParam.setId(book.getId());
             bookParam.setMemberId(bookReturned.getMemberId());
             bookParam.setStatus("available");
-            if (bookReturned.getOverdueYn() == "Y")
+            if ("Y".equals(bookReturned.getOverdueYn()))
                 bookParam.setCost(0);
             else
                 bookParam.setCost(book.getCost() / 10);
