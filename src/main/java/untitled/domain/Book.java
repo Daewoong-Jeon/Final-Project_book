@@ -82,6 +82,8 @@ public class Book {
 
             } else {
 
+                book.setMemberId(bookRent.getMemberId());
+
                 NotAvailableBook notAvailableBook = new NotAvailableBook(book);
                 notAvailableBook.publishAfterCommit();
 
@@ -112,12 +114,17 @@ public class Book {
             book.setMemberId(null);
             repository().save(book);
 
-            if (bookReturned.getOverdueYn() == "Y")
-                book.setCost(0);
-            else
-                book.setCost(book.getCost() / 10);
 
-            AvailableStatusUpdated availableStatusUpdated = new AvailableStatusUpdated(book);
+
+            Book bookParam = new Book();
+            bookParam.setMemberId(bookReturned.getMemberId());
+            bookParam.setStatus("available");
+            if (bookReturned.getOverdueYn() == "Y")
+                bookParam.setCost(0);
+            else
+                bookParam.setCost(book.getCost() / 10);
+
+            AvailableStatusUpdated availableStatusUpdated = new AvailableStatusUpdated(bookParam);
             availableStatusUpdated.publishAfterCommit();
 
          });
