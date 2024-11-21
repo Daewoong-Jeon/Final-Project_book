@@ -42,8 +42,12 @@ spring:
 
 logging:
   level:
-    org.hibernate.type: trace
-    org.springframework.cloud: debug
+    root: ${BOOK_LOG_LEVEL}
+    org:
+      hibernate:
+        SQL: ${BOOK_LOG_LEVEL}
+      springframework:
+        cloud: ${BOOK_LOG_LEVEL}
 
 
 server:
@@ -81,4 +85,12 @@ spring:
           destination: bookrental
           contentType: application/json
 
+logging:
+  level:
+    root: ${BOOK_LOG_LEVEL}
+    org:
+      hibernate:
+        SQL: ${BOOK_LOG_LEVEL}
+      springframework:
+        cloud: ${BOOK_LOG_LEVEL}
 

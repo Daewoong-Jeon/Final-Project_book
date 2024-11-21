@@ -36,6 +36,12 @@ spec:
             timeoutSeconds: 2
             periodSeconds: 5
             failureThreshold: 5
+          env:
+            - name: BOOK_LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: config-dev
+                  key: BOOK_LOG_LEVEL
           volumeMounts:
             - mountPath: "/mnt/data"
               name: volume
