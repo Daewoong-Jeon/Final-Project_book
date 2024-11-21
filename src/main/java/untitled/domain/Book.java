@@ -25,6 +25,8 @@ public class Book {
 
     private Integer cost;
 
+    private Integer rentalId;
+
 
     @PostPersist
     public void onPostPersist() {
@@ -38,6 +40,12 @@ public class Book {
 
         BookAdded bookAdded = new BookAdded(this);
         bookAdded.publishAfterCommit();
+
+//        NotAvailableBook notAvailableBook = new NotAvailableBook(this);
+//        notAvailableBook.publishAfterCommit();
+//
+//        BookRollbacked bookRollbacked = new BookRollbacked(this);
+//        bookRollbacked.publishAfterCommit();
     }
 
     public static BookRepository repository() {
@@ -57,6 +65,9 @@ public class Book {
 
         RentalStatusUpdated rentalStatusUpdated = new RentalStatusUpdated(book);
         rentalStatusUpdated.publishAfterCommit();
+
+         NotAvailableBook notAvailableBook = new NotAvailableBook(book);
+         notAvailableBook.publishAfterCommit();
         */
 
         // Example 2:  finding and process
@@ -69,6 +80,9 @@ public class Book {
 
             RentalStatusUpdated rentalStatusUpdated = new RentalStatusUpdated(book);
             rentalStatusUpdated.publishAfterCommit();
+
+//            NotAvailableBook notAvailableBook = new NotAvailableBook(book);
+//            notAvailableBook.publishAfterCommit();
 
          });
 
@@ -87,21 +101,48 @@ public class Book {
         availableStatusUpdated.publishAfterCommit();
         */
 
-        /** Example 2:  finding and process
+        // Example 2:  finding and process
         
-        repository().findById(bookReturned.get???()).ifPresent(book->{
-            
-            book // do something
+        repository().findById(bookReturned.getBookId()).ifPresent(book->{
+
+            book.setStatus("available");
+            book.setMemberId(null);
             repository().save(book);
+            if (bookReturned.getOverdueYn() == "Y")
+                book.setCost(0);
 
             AvailableStatusUpdated availableStatusUpdated = new AvailableStatusUpdated(book);
             availableStatusUpdated.publishAfterCommit();
 
          });
-        */
 
     }
     //>>> Clean Arch / Port Method
+
+    //>>> Clean Arch / Port Method
+    //<<< Clean Arch / Port Method
+    public static void rollbackBook(LackOfPoints lackOfPoints) {
+        //implement business logic here:
+
+        /** Example 1:  new item
+         Book book = new Book();
+         repository().save(book);
+         BookRollbacked bookRollbacked = new BookRollbacked(book);
+         bookRollbacked.publishAfterCommit();
+         */
+
+        /** Example 2:  finding and process
+
+         repository().findById(lackOfPoints.get???()).ifPresent(book->{
+
+         book // do something
+         repository().save(book);
+         BookRollbacked bookRollbacked = new BookRollbacked(book);
+         bookRollbacked.publishAfterCommit();
+         });
+         */
+
+    }
 
 }
 //>>> DDD / Aggregate Root

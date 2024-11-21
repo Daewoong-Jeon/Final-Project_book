@@ -56,5 +56,21 @@ public class PolicyHandler {
         // Sample Logic //
         Book.updateAvailableStatus(event);
     }
+
+    @StreamListener(
+            value = KafkaProcessor.INPUT,
+            condition = "headers['type']=='LackOfPoints'"
+    )
+    public void wheneverLackOfPoints_RollbackBook(
+            @Payload LackOfPoints lackOfPoints
+    ) {
+        LackOfPoints event = lackOfPoints;
+        System.out.println(
+                "\n\n##### listener RollbackBook : " + lackOfPoints + "\n\n"
+        );
+
+        // Sample Logic //
+        Book.rollbackBook(event);
+    }
 }
 //>>> Clean Arch / Inbound Adaptor
