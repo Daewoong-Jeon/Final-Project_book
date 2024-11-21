@@ -36,8 +36,8 @@ public class Book {
 //        );
 //        availableStatusUpdated.publishAfterCommit();
 //
-//        BookAdded bookAdded = new BookAdded(this);
-//        bookAdded.publishAfterCommit();
+        BookAdded bookAdded = new BookAdded(this);
+        bookAdded.publishAfterCommit();
 
 //        NotAvailableBook notAvailableBook = new NotAvailableBook(this);
 //        notAvailableBook.publishAfterCommit();
