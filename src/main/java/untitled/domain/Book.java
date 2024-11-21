@@ -39,8 +39,8 @@ public class Book {
         BookAdded bookAdded = new BookAdded(this);
         bookAdded.publishAfterCommit();
 
-//        NotAvailableBook notAvailableBook = new NotAvailableBook(this);
-//        notAvailableBook.publishAfterCommit();
+//        NotAvailableReturned notAvailableReturned = new NotAvailableReturned(this);
+//        notAvailableReturned.publishAfterCommit();
 //
 //        BookRollbacked bookRollbacked = new BookRollbacked(this);
 //        bookRollbacked.publishAfterCommit();
@@ -64,8 +64,8 @@ public class Book {
         RentalStatusUpdated rentalStatusUpdated = new RentalStatusUpdated(book);
         rentalStatusUpdated.publishAfterCommit();
 
-         NotAvailableBook notAvailableBook = new NotAvailableBook(book);
-         notAvailableBook.publishAfterCommit();
+        NotAvailableReturned notAvailableReturned = new NotAvailableReturned(this);
+        notAvailableReturned.publishAfterCommit();
         */
 
         // Example 2:  finding and process
@@ -82,20 +82,19 @@ public class Book {
 
             } else {
 
-                Book bookParam = new Book();
-                bookParam.setId(book.getId());
-                bookParam.setMemberId(bookRent.getMemberId());
-                bookParam.setStatus(book.getStatus());
+//                Book bookParam = new Book();
+//                bookParam.setId(book.getId());
+//                bookParam.setMemberId(bookRent.getMemberId());
+//                bookParam.setStatus(book.getStatus());
 
-//                NotAvailableBook notAvailableBook = new NotAvailableBook(bookParam);
-//                notAvailableBook.publishAfterCommit();
+        //        NotAvailableReturned notAvailableReturned = new NotAvailableReturned(this);
+        //        notAvailableReturned.publishAfterCommit();
 
-                NotAvailableBook notAvailableBook = new NotAvailableBook();
-                notAvailableBook.setId(book.getId());
-                notAvailableBook.setMemberId(bookRent.getMemberId());
-                notAvailableBook.setStatus(book.getStatus());
-                notAvailableBook.setRentalId(bookRent.getId().intValue());
-                notAvailableBook.publishAfterCommit();
+                NotAvailableReturned notAvailableReturned = new NotAvailableReturned();
+                notAvailableReturned.setId(book.getId());
+                notAvailableReturned.setMemberId(bookRent.getMemberId());
+                notAvailableReturned.setStatus(book.getStatus());
+                notAvailableReturned.publishAfterCommit();
 
             }
 
@@ -143,7 +142,7 @@ public class Book {
 
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
-    public static void rollbackBook(LackOfPoints lackOfPoints) {
+    public static void rollbackBook(LackOfPointsReturned lackOfPointsReturned) {
         //implement business logic here:
 
         /** Example 1:  new item
@@ -155,13 +154,19 @@ public class Book {
 
         // Example 2:  finding and process
 
-         repository().findById(lackOfPoints.getBookId()).ifPresent(book->{
+         repository().findById(lackOfPointsReturned.getBookId()).ifPresent(book->{
+
+             Book bookParam = new Book();
+             bookParam.setStatus("available");
+             bookParam.setMemberId(book.getMemberId());
+             bookParam.setCost(book.getCost());
+             bookParam.setId(book.getId());
 
              book.setStatus("available");
              book.setMemberId(null);
              repository().save(book);
 
-             BookRollbacked bookRollbacked = new BookRollbacked(book);
+             BookRollbacked bookRollbacked = new BookRollbacked(bookParam);
              bookRollbacked.publishAfterCommit();
          });
 

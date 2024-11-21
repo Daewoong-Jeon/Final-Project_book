@@ -7,7 +7,7 @@ import untitled.infra.AbstractEvent;
 
 @Data
 @ToString
-public class LackOfPoints extends AbstractEvent {
+public class LackOfPointsReturned extends AbstractEvent {
 
     private String id;
     private Integer rentalPoint;

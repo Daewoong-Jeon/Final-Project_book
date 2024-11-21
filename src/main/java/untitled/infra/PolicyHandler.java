@@ -59,14 +59,14 @@ public class PolicyHandler {
 
     @StreamListener(
             value = KafkaProcessor.INPUT,
-            condition = "headers['type']=='LackOfPoints'"
+            condition = "headers['type']=='LackOfPointsReturned'"
     )
-    public void wheneverLackOfPoints_RollbackBook(
-            @Payload LackOfPoints lackOfPoints
+    public void wheneverLackOfPointsReturned_RollbackBook(
+            @Payload LackOfPointsReturned lackOfPointsReturned
     ) {
-        LackOfPoints event = lackOfPoints;
+        LackOfPointsReturned event = lackOfPointsReturned;
         System.out.println(
-                "\n\n##### listener RollbackBook : " + lackOfPoints + "\n\n"
+                "\n\n##### listener RollbackBook : " + lackOfPointsReturned + "\n\n"
         );
 
         // Sample Logic //
