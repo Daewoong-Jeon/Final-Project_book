@@ -25,9 +25,6 @@ public class Book {
 
     private Integer cost;
 
-    private Date rentalDate;
-
-    private Date requiredReturnDate;
 
     @PostPersist
     public void onPostPersist() {
@@ -62,18 +59,18 @@ public class Book {
         rentalStatusUpdated.publishAfterCommit();
         */
 
-        /** Example 2:  finding and process
-        
-        repository().findById(bookRent.get???()).ifPresent(book->{
-            
-            book // do something
+        // Example 2:  finding and process
+
+        repository().findById(bookRent.getBookId()).ifPresent(book->{
+
+            book.setStatus("rental");
+            book.setMemberId(bookRent.getMemberId());
             repository().save(book);
 
             RentalStatusUpdated rentalStatusUpdated = new RentalStatusUpdated(book);
             rentalStatusUpdated.publishAfterCommit();
 
          });
-        */
 
     }
 
