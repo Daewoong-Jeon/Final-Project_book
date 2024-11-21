@@ -28,16 +28,16 @@ public class Book {
 
     @PostPersist
     public void onPostPersist() {
-        RentalStatusUpdated rentalStatusUpdated = new RentalStatusUpdated(this);
-        rentalStatusUpdated.publishAfterCommit();
-
-        AvailableStatusUpdated availableStatusUpdated = new AvailableStatusUpdated(
-            this
-        );
-        availableStatusUpdated.publishAfterCommit();
-
-        BookAdded bookAdded = new BookAdded(this);
-        bookAdded.publishAfterCommit();
+//        RentalStatusUpdated rentalStatusUpdated = new RentalStatusUpdated(this);
+//        rentalStatusUpdated.publishAfterCommit();
+//
+//        AvailableStatusUpdated availableStatusUpdated = new AvailableStatusUpdated(
+//            this
+//        );
+//        availableStatusUpdated.publishAfterCommit();
+//
+//        BookAdded bookAdded = new BookAdded(this);
+//        bookAdded.publishAfterCommit();
 
 //        NotAvailableBook notAvailableBook = new NotAvailableBook(this);
 //        notAvailableBook.publishAfterCommit();
