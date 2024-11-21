@@ -82,9 +82,19 @@ public class Book {
 
             } else {
 
-                book.setMemberId(bookRent.getMemberId());
+                Book bookParam = new Book();
+                bookParam.setId(book.getId());
+                bookParam.setMemberId(bookRent.getMemberId());
+                bookParam.setStatus(book.getStatus());
 
-                NotAvailableBook notAvailableBook = new NotAvailableBook(book);
+//                NotAvailableBook notAvailableBook = new NotAvailableBook(bookParam);
+//                notAvailableBook.publishAfterCommit();
+
+                NotAvailableBook notAvailableBook = new NotAvailableBook();
+                notAvailableBook.setId(book.getId());
+                notAvailableBook.setMemberId(bookRent.getMemberId());
+                notAvailableBook.setStatus(book.getStatus());
+                notAvailableBook.setRentalId(bookRent.getId().intValue());
                 notAvailableBook.publishAfterCommit();
 
             }
@@ -145,7 +155,7 @@ public class Book {
 
         // Example 2:  finding and process
 
-         repository().findByMemberId(lackOfPoints.getId()).ifPresent(book->{
+         repository().findById(lackOfPoints.getBookId()).ifPresent(book->{
 
              book.setStatus("available");
              book.setMemberId(null);

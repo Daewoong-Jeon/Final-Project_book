@@ -11,4 +11,5 @@ public class LackOfPoints extends AbstractEvent {
 
     private String id;
     private Integer rentalPoint;
+    private String bookId;
 }
