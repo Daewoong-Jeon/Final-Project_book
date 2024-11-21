@@ -73,16 +73,22 @@ public class Book {
         // Example 2:  finding and process
 
         repository().findById(bookRent.getBookId()).ifPresent(book->{
+            if ("available".equals(book.getStatus())) {
 
-            book.setStatus("rental");
-            book.setMemberId(bookRent.getMemberId());
-            repository().save(book);
+                book.setRentalId(bookRent.getId().intValue());
+                book.setStatus("rental");
+                book.setMemberId(bookRent.getMemberId());
+                repository().save(book);
 
-            RentalStatusUpdated rentalStatusUpdated = new RentalStatusUpdated(book);
-            rentalStatusUpdated.publishAfterCommit();
+                RentalStatusUpdated rentalStatusUpdated = new RentalStatusUpdated(book);
+                rentalStatusUpdated.publishAfterCommit();
 
-//            NotAvailableBook notAvailableBook = new NotAvailableBook(book);
-//            notAvailableBook.publishAfterCommit();
+            } else {
+
+                NotAvailableBook notAvailableBook = new NotAvailableBook(book);
+                notAvailableBook.publishAfterCommit();
+
+            }
 
          });
 
@@ -105,11 +111,15 @@ public class Book {
         
         repository().findById(bookReturned.getBookId()).ifPresent(book->{
 
+            book.setRentalId(null);
             book.setStatus("available");
             book.setMemberId(null);
             repository().save(book);
+
             if (bookReturned.getOverdueYn() == "Y")
                 book.setCost(0);
+            else
+                book.setCost(book.getCost() / 10);
 
             AvailableStatusUpdated availableStatusUpdated = new AvailableStatusUpdated(book);
             availableStatusUpdated.publishAfterCommit();
@@ -131,16 +141,18 @@ public class Book {
          bookRollbacked.publishAfterCommit();
          */
 
-        /** Example 2:  finding and process
+        // Example 2:  finding and process
 
-         repository().findById(lackOfPoints.get???()).ifPresent(book->{
+         repository().findByMemberId(lackOfPoints.getId()).ifPresent(book->{
 
-         book // do something
-         repository().save(book);
-         BookRollbacked bookRollbacked = new BookRollbacked(book);
-         bookRollbacked.publishAfterCommit();
+             book.setStatus("available");
+             book.setMemberId(null);
+             book.setRentalId(null);
+             repository().save(book);
+
+             BookRollbacked bookRollbacked = new BookRollbacked(book);
+             bookRollbacked.publishAfterCommit();
          });
-         */
 
     }
 
