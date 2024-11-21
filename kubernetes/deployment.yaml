@@ -20,6 +20,9 @@ spec:
           image: "user13.azurecr.io/book:latest"
           ports:
             - containerPort: 8080
+          resources:
+            requests:
+              cpu: "200m"
           readinessProbe:
             httpGet:
               path: '/actuator/health'
