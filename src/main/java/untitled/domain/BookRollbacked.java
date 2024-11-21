@@ -13,7 +13,6 @@ public class BookRollbacked extends AbstractEvent {
 
     private String id;
     private String memberId;
-    private Integer rentalId;
     private String status;
 
     public BookRollbacked(Book aggregate) {

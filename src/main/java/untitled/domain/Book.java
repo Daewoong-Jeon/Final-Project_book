@@ -25,8 +25,6 @@ public class Book {
 
     private Integer cost;
 
-    private Integer rentalId;
-
 
     @PostPersist
     public void onPostPersist() {
@@ -75,7 +73,6 @@ public class Book {
         repository().findById(bookRent.getBookId()).ifPresent(book->{
             if ("available".equals(book.getStatus())) {
 
-                book.setRentalId(bookRent.getId().intValue());
                 book.setStatus("rental");
                 book.setMemberId(bookRent.getMemberId());
                 repository().save(book);
@@ -111,7 +108,6 @@ public class Book {
         
         repository().findById(bookReturned.getBookId()).ifPresent(book->{
 
-            book.setRentalId(null);
             book.setStatus("available");
             book.setMemberId(null);
             repository().save(book);
@@ -147,7 +143,6 @@ public class Book {
 
              book.setStatus("available");
              book.setMemberId(null);
-             book.setRentalId(null);
              repository().save(book);
 
              BookRollbacked bookRollbacked = new BookRollbacked(book);
